@@ -24,8 +24,8 @@ app.use(helmet());
 app.use(helmet.hidePoweredBy());
 app.use(validateBearerToken);
 
-app.use('/api/note', noteRouter);
-app.use('/api/folder', folderRouter);
+app.use('/api/notes', noteRouter);
+app.use('/api/folders', folderRouter);
 
 app.get('/', (req, res) => {
 	res.send('Hello, world!');

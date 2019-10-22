@@ -30,43 +30,43 @@ describe('Folder Endpoints', function() {
 			return db.into('folder').insert(testFolder);
 		});
 
-		it(`responds with 401 Unauthorized for GET /api/folder`, () => {
+		it(`responds with 401 Unauthorized for GET /api/folders`, () => {
 			return supertest(app)
-				.get('/api/folder')
+				.get('/api/folders')
 				.expect(401, { error: 'Unauthorized request' });
 		});
 
-		it(`responds with 401 Unauthorized for POST /api/folder`, () => {
+		it(`responds with 401 Unauthorized for POST /api/folders`, () => {
 			return supertest(app)
-				.post('/api/folder')
+				.post('/api/folders')
 				.send({
 					name: 'test folder name'
 				})
 				.expect(401, { error: 'Unauthorized request' });
 		});
 
-		it(`responds with 401 Unauthorized for GET /api/folder/:id`, () => {
+		it(`responds with 401 Unauthorized for GET /api/folders/:id`, () => {
 			const item = testNote[1];
 			return supertest(app)
-				.get(`/api/folder/${item.id}`)
+				.get(`/api/folders/${item.id}`)
 				.expect(401, { error: 'Unauthorized request' });
 		});
 
-		it(`responds with 401 Unauthorized for DELETE /api/folder/:id`, () => {
+		it(`responds with 401 Unauthorized for DELETE /api/folders/:id`, () => {
 			const item = testNote[1];
 			return supertest(app)
-				.delete(`/api/folder/${item.id}`)
+				.delete(`/api/folders/${item.id}`)
 				.expect(401, { error: 'Unauthorized request' });
 		});
 	});
 
 	// ************************
 
-	describe(`GET /api/folder`, () => {
+	describe(`GET /api/folders`, () => {
 		context(`Given no folders`, () => {
 			it(`responds with 200 and an empty list`, () => {
 				return supertest(app)
-					.get('/api/folder')
+					.get('/api/folders')
 					.set('Authorization', `Bearer ${process.env.API_TOKEN}`)
 					.expect(200, []);
 			});
@@ -81,7 +81,7 @@ describe('Folder Endpoints', function() {
 
 			it('responds with 200 and all of the folders', () => {
 				return supertest(app)
-					.get('/api/folder')
+					.get('/api/folders')
 					.set('Authorization', `Bearer ${process.env.API_TOKEN}`)
 					.expect(200, testFolder);
 			});
@@ -96,7 +96,7 @@ describe('Folder Endpoints', function() {
 
 			it('removes XSS attack folder name', () => {
 				return supertest(app)
-					.get(`/api/folder`)
+					.get(`/api/folders`)
 					.set('Authorization', `Bearer ${process.env.API_TOKEN}`)
 					.expect(200)
 					.expect(res => {
@@ -106,12 +106,12 @@ describe('Folder Endpoints', function() {
 		});
 	});
 
-	describe(`GET /api/folder/:folder_id`, () => {
+	describe(`GET /api/folders/:folder_id`, () => {
 		context(`Given no folder`, () => {
 			it(`responds with 404`, () => {
 				const folderId = 123456;
 				return supertest(app)
-					.get(`/api/folder/${folderId}`)
+					.get(`/api/folders/${folderId}`)
 					.set('Authorization', `Bearer ${process.env.API_TOKEN}`)
 					.expect(404, { error: { message: `Folder doesn't exist` } });
 			});
@@ -128,7 +128,7 @@ describe('Folder Endpoints', function() {
 				const folderId = 2;
 				const expectedFolder = testFolder[folderId - 1];
 				return supertest(app)
-					.get(`/api/folder/${folderId}`)
+					.get(`/api/folders/${folderId}`)
 					.set('Authorization', `Bearer ${process.env.API_TOKEN}`)
 					.expect(200, expectedFolder);
 			});
@@ -149,7 +149,7 @@ describe('Folder Endpoints', function() {
 
 			it('removes XSS attack content', () => {
 				return supertest(app)
-					.get(`/api/folder/${maliciousFolder.id}`)
+					.get(`/api/folders/${maliciousFolder.id}`)
 					.set('Authorization', `Bearer ${process.env.API_TOKEN}`)
 					.expect(200)
 					.expect(res => {
@@ -159,7 +159,7 @@ describe('Folder Endpoints', function() {
 		});
 	});
 
-	describe(`POST /api/folder`, () => {
+	describe(`POST /api/folders`, () => {
 		const testFolder = makeFolderArray();
 
 		beforeEach('insert malicious folder', () => {
@@ -173,18 +173,18 @@ describe('Folder Endpoints', function() {
 				content: 'Test new folder content...'
 			};
 			return supertest(app)
-				.post('/api/folder')
+				.post('/api/folders')
 				.send(newFolder)
 				.set('Authorization', `Bearer ${process.env.API_TOKEN}`)
 				.expect(201)
 				.expect(res => {
 					expect(res.body.name).to.eql(newFolder.name);
 					expect(res.body).to.have.property('id');
-					expect(res.headers.location).to.eql(`/api/folder/${res.body.id}`);
+					expect(res.headers.location).to.eql(`/api/folders/${res.body.id}`);
 				})
 				.then(res =>
 					supertest(app)
-						.get(`/api/folder/${res.body.id}`)
+						.get(`/api/folders/${res.body.id}`)
 						.set('Authorization', `Bearer ${process.env.API_TOKEN}`)
 						.expect(res.body)
 				);
@@ -203,7 +203,7 @@ describe('Folder Endpoints', function() {
 				delete newFolder[field];
 
 				return supertest(app)
-					.post('/api/folder')
+					.post('/api/folders')
 					.send(newFolder)
 					.set('Authorization', `Bearer ${process.env.API_TOKEN}`)
 					.expect(400, {
@@ -215,7 +215,7 @@ describe('Folder Endpoints', function() {
 		it('removes XSS attack content from response', () => {
 			const { maliciousFolder, expectedFolder } = makeMaliciousFolder();
 			return supertest(app)
-				.post(`/api/folder`)
+				.post(`/api/folders`)
 				.send(maliciousFolder)
 				.set('Authorization', `Bearer ${process.env.API_TOKEN}`)
 				.expect(201)
@@ -225,12 +225,12 @@ describe('Folder Endpoints', function() {
 		});
 	});
 
-	describe(`DELETE /api/folder/:folder_id`, () => {
+	describe(`DELETE /api/folders/:folder_id`, () => {
 		context(`Given no folder`, () => {
 			it(`responds with 404`, () => {
 				const folderId = 123456;
 				return supertest(app)
-					.delete(`/api/folder/${folderId}`)
+					.delete(`/api/folders/${folderId}`)
 					.expect(404, { error: { message: `Folder doesn't exist` } });
 			});
 		});
@@ -248,11 +248,11 @@ describe('Folder Endpoints', function() {
 					folder => folder.id !== idToRemove
 				);
 				return supertest(app)
-					.delete(`/api/folder/${idToRemove}`)
+					.delete(`/api/folders/${idToRemove}`)
 					.expect(204)
 					.then(res =>
 						supertest(app)
-							.get(`/api/folder`)
+							.get(`/api/folders`)
 							.set('Authorization', `Bearer ${process.env.API_TOKEN}`)
 							.expect(expectedFolder)
 					);
@@ -260,12 +260,12 @@ describe('Folder Endpoints', function() {
 		});
 	});
 
-	describe(`PATCH /api/folder/:folder_id`, () => {
+	describe(`PATCH /api/folders/:folder_id`, () => {
 		context(`Given no folder`, () => {
 			it(`responds with 404`, () => {
 				const folderId = 123456;
 				return supertest(app)
-					.delete(`/api/folder/${folderId}`)
+					.delete(`/api/folders/${folderId}`)
 					.expect(404, { error: { message: `Folder doesn't exist` } });
 			});
 		});
@@ -289,13 +289,13 @@ describe('Folder Endpoints', function() {
 					...updateFolder
 				};
 				return supertest(app)
-					.patch(`/api/folder/${idToUpdate}`)
+					.patch(`/api/folders/${idToUpdate}`)
 					.send(updateFolder)
 					.set('Authorization', `Bearer ${process.env.API_TOKEN}`)
 					.expect(204)
 					.then(res =>
 						supertest(app)
-							.get(`/api/folder/${idToUpdate}`)
+							.get(`/api/folders/${idToUpdate}`)
 							.set('Authorization', `Bearer ${process.env.API_TOKEN}`)
 							.expect(expectedFolder)
 					);
@@ -304,7 +304,7 @@ describe('Folder Endpoints', function() {
 			it(`responds with 400 when no required fields supplied`, () => {
 				const idToUpdate = 2;
 				return supertest(app)
-					.patch(`/api/folder/${idToUpdate}`)
+					.patch(`/api/folders/${idToUpdate}`)
 					.send({ irrelevantField: 'foo' })
 					.set('Authorization', `Bearer ${process.env.API_TOKEN}`)
 					.expect(400, {
@@ -325,7 +325,7 @@ describe('Folder Endpoints', function() {
 				};
 
 				return supertest(app)
-					.patch(`/api/folder/${idToUpdate}`)
+					.patch(`/api/folders/${idToUpdate}`)
 					.send({
 						...updateFolder,
 						fieldToIgnore: 'should not be in GET response'
@@ -334,7 +334,7 @@ describe('Folder Endpoints', function() {
 					.expect(204)
 					.then(res =>
 						supertest(app)
-							.get(`/api/folder/${idToUpdate}`)
+							.get(`/api/folders/${idToUpdate}`)
 							.set('Authorization', `Bearer ${process.env.API_TOKEN}`)
 							.expect(expectedFolder)
 					);
