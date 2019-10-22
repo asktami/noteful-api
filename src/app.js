@@ -4,14 +4,17 @@ const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
 const { NODE_ENV } = require('./config');
+
 const validateBearerToken = require('./validate-bearer-token');
 const errorHandler = require('./error-handler');
 
-// ROUTERS
-const cardRouter = require('./card/card-router');
+const folderRouter = require('./folder/folder-router');
+const noteRouter = require('./note/note-router');
 
 const app = express();
 
+// if environment = production , format = tiny, else common
+// skip logging with morgan if environment = test
 app.use(
 	morgan(NODE_ENV === 'production' ? 'tiny' : 'common', {
 		skip: () => NODE_ENV === 'test'
@@ -24,8 +27,8 @@ app.use(helmet.hidePoweredBy());
 
 app.use(validateBearerToken);
 
-// USE ROUTERS
-app.use(cardRouter);
+app.use('/api/folder', folderRouter);
+app.use('/api/note', noteRouter);
 
 app.get('/', (req, res) => {
 	res.send('Hello, world!');

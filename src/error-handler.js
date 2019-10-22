@@ -11,11 +11,13 @@ function errorHandler(error, req, res, next) {
 		// include winston logging
 		// to just log message:
 		// logger.error(error.message);
-		logger.error(
-			`${error.status || 500} - ${error.message} - ${req.originalUrl} - ${
-				req.method
-			} - ${req.ip}`
-		);
+		// logger.error(
+		// 	`${error.status || 500} - ${error.message} - ${req.originalUrl} - ${
+		// 		req.method
+		// 	} - ${req.ip}`
+		// );
+		console.error('XXX error-hander: ', error);
+		logger.error('XXX ERROR-HANDLER-LOGGER XXX');
 
 		response = { message: error.message, error };
 	}
