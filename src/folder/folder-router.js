@@ -128,7 +128,7 @@ folderRouter
 			});
 			return res.status(400).json({
 				error: {
-					message: `Update must contain folder name'`
+					message: `Update must contain folder name`
 				}
 			});
 		}

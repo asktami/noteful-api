@@ -49,7 +49,7 @@ describe('Note Endpoints', function() {
 				.send({
 					name: 'test note name',
 					content: 'test note content',
-					folderId: 1
+					id_folder: 1
 				})
 				.expect(401, { error: 'Unauthorized request' });
 		});
@@ -94,7 +94,7 @@ describe('Note Endpoints', function() {
 					});
 			});
 
-			it('responds with 200 and all of the note', () => {
+			it('responds with 200 and all of the notes', () => {
 				return supertest(app)
 					.get('/api/notes')
 					.set('Authorization', `Bearer ${process.env.API_TOKEN}`)
@@ -135,7 +135,7 @@ describe('Note Endpoints', function() {
 				return supertest(app)
 					.get(`/api/notes/${noteId}`)
 					.set('Authorization', `Bearer ${process.env.API_TOKEN}`)
-					.expect(404, { error: { message: `Note doesn't exist` } });
+					.expect(404, { error: { message: `Note Not Found` } });
 			});
 		});
 
@@ -204,7 +204,7 @@ describe('Note Endpoints', function() {
 		it(`creates an note, responding with 201 and the new note`, () => {
 			const newNote = {
 				name: 'Test New Note',
-				folderId: '1',
+				id_folder: '1',
 				content: 'Test new note content...'
 			};
 			return supertest(app)
@@ -214,7 +214,7 @@ describe('Note Endpoints', function() {
 				.expect(201)
 				.expect(res => {
 					expect(res.body.name).to.eql(newNote.name);
-					expect(res.body.folderId).to.eql(newNote.folderId);
+					expect(res.body.id_folder).to.eql(newNote.id_folder);
 					expect(res.body.content).to.eql(newNote.content);
 					expect(res.body).to.have.property('id');
 					expect(res.headers.location).to.eql(`/api/notes/${res.body.id}`);
@@ -237,7 +237,7 @@ describe('Note Endpoints', function() {
 		requiredFields.forEach(field => {
 			const newNote = {
 				name: 'Test New Note',
-				folderId: '1',
+				id_folder: '1',
 				content: 'Test new note content...'
 			};
 
@@ -249,7 +249,7 @@ describe('Note Endpoints', function() {
 					.send(newNote)
 					.set('Authorization', `Bearer ${process.env.API_TOKEN}`)
 					.expect(400, {
-						error: { message: `Missing '${field}' in request body` }
+						error: { message: `'${field}' is required` }
 					});
 			});
 		});
@@ -274,7 +274,8 @@ describe('Note Endpoints', function() {
 				const noteId = 123456;
 				return supertest(app)
 					.delete(`/api/notes/${noteId}`)
-					.expect(404, { error: { message: `Note doesn't exist` } });
+					.set('Authorization', `Bearer ${process.env.API_TOKEN}`)
+					.expect(404, { error: { message: `Note Not Found` } });
 			});
 		});
 
@@ -296,6 +297,7 @@ describe('Note Endpoints', function() {
 				const expectedNote = testNote.filter(note => note.id !== idToRemove);
 				return supertest(app)
 					.delete(`/api/notes/${idToRemove}`)
+					.set('Authorization', `Bearer ${process.env.API_TOKEN}`)
 					.expect(204)
 					.then(res =>
 						supertest(app)
@@ -313,7 +315,8 @@ describe('Note Endpoints', function() {
 				const noteId = 123456;
 				return supertest(app)
 					.delete(`/api/notes/${noteId}`)
-					.expect(404, { error: { message: `Note doesn't exist` } });
+					.set('Authorization', `Bearer ${process.env.API_TOKEN}`)
+					.expect(404, { error: { message: `Note Not Found` } });
 			});
 		});
 
@@ -334,7 +337,7 @@ describe('Note Endpoints', function() {
 				const idToUpdate = 2;
 				const updateNote = {
 					name: 'updated note name',
-					folderId: '2',
+					id_folder: 1,
 					content: 'updated note content'
 				};
 				const expectedNote = {
@@ -362,7 +365,7 @@ describe('Note Endpoints', function() {
 					.set('Authorization', `Bearer ${process.env.API_TOKEN}`)
 					.expect(400, {
 						error: {
-							message: `Update request body must contain either 'name', 'folderId', or 'content'`
+							message: `Request body must contain either 'name', 'id_folder', or 'content'`
 						}
 					});
 			});

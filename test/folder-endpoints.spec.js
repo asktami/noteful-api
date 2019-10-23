@@ -2,7 +2,7 @@ const knex = require('knex');
 const app = require('../src/app');
 const { makeFolderArray, makeMaliciousFolder } = require('./folder-fixtures');
 
-describe('Folder Endpoints', function() {
+describe.only('Folder Endpoints', function() {
 	let db;
 
 	before('make knex instance', () => {
@@ -46,14 +46,14 @@ describe('Folder Endpoints', function() {
 		});
 
 		it(`responds with 401 Unauthorized for GET /api/folders/:id`, () => {
-			const item = testNote[1];
+			const item = testFolder[1];
 			return supertest(app)
 				.get(`/api/folders/${item.id}`)
 				.expect(401, { error: 'Unauthorized request' });
 		});
 
 		it(`responds with 401 Unauthorized for DELETE /api/folders/:id`, () => {
-			const item = testNote[1];
+			const item = testFolder[1];
 			return supertest(app)
 				.delete(`/api/folders/${item.id}`)
 				.expect(401, { error: 'Unauthorized request' });
@@ -109,11 +109,11 @@ describe('Folder Endpoints', function() {
 	describe(`GET /api/folders/:folder_id`, () => {
 		context(`Given no folder`, () => {
 			it(`responds with 404`, () => {
-				const folderId = 123456;
+				const id_folder = 123456;
 				return supertest(app)
-					.get(`/api/folders/${folderId}`)
+					.get(`/api/folders/${id_folder}`)
 					.set('Authorization', `Bearer ${process.env.API_TOKEN}`)
-					.expect(404, { error: { message: `Folder doesn't exist` } });
+					.expect(404, { error: { message: `Folder Not Found` } });
 			});
 		});
 
@@ -125,10 +125,10 @@ describe('Folder Endpoints', function() {
 			});
 
 			it('responds with 200 and the specified folder', () => {
-				const folderId = 2;
-				const expectedFolder = testFolder[folderId - 1];
+				const id_folder = 2;
+				const expectedFolder = testFolder[id_folder - 1];
 				return supertest(app)
-					.get(`/api/folders/${folderId}`)
+					.get(`/api/folders/${id_folder}`)
 					.set('Authorization', `Bearer ${process.env.API_TOKEN}`)
 					.expect(200, expectedFolder);
 			});
@@ -166,11 +166,9 @@ describe('Folder Endpoints', function() {
 			return db.into('folder').insert(testFolder);
 		});
 
-		it(`creates an folder, responding with 201 and the new folder`, () => {
+		it(`creates a folder, responding with 201 and the new folder`, () => {
 			const newFolder = {
-				name: 'Test New Folder',
-				folderId: '1',
-				content: 'Test new folder content...'
+				name: 'Test New Folder'
 			};
 			return supertest(app)
 				.post('/api/folders')
@@ -194,9 +192,7 @@ describe('Folder Endpoints', function() {
 
 		requiredFields.forEach(field => {
 			const newFolder = {
-				name: 'Test New Folder',
-				folderId: '1',
-				content: 'Test new folder content...'
+				name: 'Test New Folder'
 			};
 
 			it(`responds with 400 and an error message when the '${field}' is missing`, () => {
@@ -207,7 +203,7 @@ describe('Folder Endpoints', function() {
 					.send(newFolder)
 					.set('Authorization', `Bearer ${process.env.API_TOKEN}`)
 					.expect(400, {
-						error: { message: `Missing '${field}' in request body` }
+						error: { message: `'${field}' is required` }
 					});
 			});
 		});
@@ -228,14 +224,15 @@ describe('Folder Endpoints', function() {
 	describe(`DELETE /api/folders/:folder_id`, () => {
 		context(`Given no folder`, () => {
 			it(`responds with 404`, () => {
-				const folderId = 123456;
+				const id_folder = 123456;
 				return supertest(app)
-					.delete(`/api/folders/${folderId}`)
-					.expect(404, { error: { message: `Folder doesn't exist` } });
+					.delete(`/api/folders/${id_folder}`)
+					.set('Authorization', `Bearer ${process.env.API_TOKEN}`)
+					.expect(404, { error: { message: `Folder Not Found` } });
 			});
 		});
 
-		context('Given there are folder in the database', () => {
+		context('Given there are folders in the database', () => {
 			const testFolder = makeFolderArray();
 
 			beforeEach('insert folder', () => {
@@ -249,6 +246,7 @@ describe('Folder Endpoints', function() {
 				);
 				return supertest(app)
 					.delete(`/api/folders/${idToRemove}`)
+					.set('Authorization', `Bearer ${process.env.API_TOKEN}`)
 					.expect(204)
 					.then(res =>
 						supertest(app)
@@ -263,10 +261,11 @@ describe('Folder Endpoints', function() {
 	describe(`PATCH /api/folders/:folder_id`, () => {
 		context(`Given no folder`, () => {
 			it(`responds with 404`, () => {
-				const folderId = 123456;
+				const id_folder = 123456;
 				return supertest(app)
-					.delete(`/api/folders/${folderId}`)
-					.expect(404, { error: { message: `Folder doesn't exist` } });
+					.delete(`/api/folders/${id_folder}`)
+					.set('Authorization', `Bearer ${process.env.API_TOKEN}`)
+					.expect(404, { error: { message: `Folder Not Found` } });
 			});
 		});
 
@@ -280,9 +279,7 @@ describe('Folder Endpoints', function() {
 			it('responds with 204 and updates the folder', () => {
 				const idToUpdate = 2;
 				const updateFolder = {
-					name: 'updated folder name',
-					folderId: '2',
-					content: 'updated folder content'
+					name: 'updated folder name'
 				};
 				const expectedFolder = {
 					...testFolder[idToUpdate - 1],
@@ -309,7 +306,7 @@ describe('Folder Endpoints', function() {
 					.set('Authorization', `Bearer ${process.env.API_TOKEN}`)
 					.expect(400, {
 						error: {
-							message: `Update request body must contain either 'name', 'folderId', or 'content'`
+							message: `Update must contain folder name`
 						}
 					});
 			});
