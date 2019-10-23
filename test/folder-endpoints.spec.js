@@ -162,6 +162,7 @@ describe('Folder Endpoints', function() {
 	describe(`POST /api/folders`, () => {
 		const testFolder = makeFolderArray();
 
+		// DISCUSS WITH MENTOR
 		// TESTS PASS WHEN I COMMENT THIS OUT
 		// BUT THIS IS CODE FROM Blogful !!!
 
