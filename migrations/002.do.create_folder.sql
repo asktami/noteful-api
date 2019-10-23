@@ -7,12 +7,12 @@ CREATE TABLE folder (
 
 ALTER TABLE note
   ADD COLUMN
-  folderId INTEGER REFERENCES folder(id) ON DELETE CASCADE NOT NULL;
+  id_folder INTEGER REFERENCES folder(id) ON DELETE CASCADE NOT NULL;
 
 
-    -- to allow nulls in NOTE folderId if a folder with related notes is deleted:
-    -- folderId INTEGER REFERENCES folder(id) ON DELETE SET NULL
+    -- to allow nulls in NOTE id_folder if a folder with related notes is deleted:
+    -- id_folder INTEGER REFERENCES folder(id) ON DELETE SET NULL
 
 
     -- to Cascade Delete all related notes when a folder is deleted:
-    -- folderId INTEGER REFERENCES folder(id) ON DELETE CASCADE NOT NULL,
+    -- id_folder INTEGER REFERENCES folder(id) ON DELETE CASCADE NOT NULL,
