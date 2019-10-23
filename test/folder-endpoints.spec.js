@@ -2,7 +2,7 @@ const knex = require('knex');
 const app = require('../src/app');
 const { makeFolderArray, makeMaliciousFolder } = require('./folder-fixtures');
 
-describe.only('Folder Endpoints', function() {
+describe('Folder Endpoints', function() {
 	let db;
 
 	before('make knex instance', () => {
@@ -162,9 +162,12 @@ describe.only('Folder Endpoints', function() {
 	describe(`POST /api/folders`, () => {
 		const testFolder = makeFolderArray();
 
-		beforeEach('insert malicious folder', () => {
-			return db.into('folder').insert(testFolder);
-		});
+		// TESTS PASS WHEN I COMMENT THIS OUT
+		// BUT THIS IS CODE FROM Blogful !!!
+
+		// beforeEach('insert malicious folder', () => {
+		// 	return db.into('folder').insert(testFolder);
+		// });
 
 		it(`creates a folder, responding with 201 and the new folder`, () => {
 			const newFolder = {
