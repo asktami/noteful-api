@@ -1,25 +1,24 @@
-const { isWebUri } = require('valid-url');
 const logger = require('../logger');
 
 const NO_ERRORS = null;
 
-// name, folderId, content
+// name, id_folder, content
 
-function getBookmarkValidationError({ url, rating }) {
-	if (rating && (!Number.isInteger(rating) || rating < 0 || rating > 5)) {
-		logger.error(`Invalid rating '${rating}' supplied`);
+function getNoteValidationError({ name, content }) {
+	if (name && name.length < 3) {
+		logger.error(`Invalid name '${name}' supplied`);
 		return {
 			error: {
-				message: `'rating' must be a number between 0 and 5`
+				message: `'name' must be at least 3 characters`
 			}
 		};
 	}
 
-	if (url && !isWebUri(url)) {
-		logger.error(`Invalid url '${url}' supplied`);
+	if (content && content.length < 5) {
+		logger.error(`Invalid content '${content}' supplied`);
 		return {
 			error: {
-				message: `'url' must be a valid URL`
+				message: `'content' must be at least 5 characters`
 			}
 		};
 	}
@@ -28,5 +27,5 @@ function getBookmarkValidationError({ url, rating }) {
 }
 
 module.exports = {
-	getBookmarkValidationError
+	getNoteValidationError
 };
