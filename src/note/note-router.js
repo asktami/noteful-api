@@ -111,8 +111,10 @@ noteRouter
 					method: `${req.method}`,
 					ip: `${req.ip}`
 				});
-
-				res.status(204).end();
+				// need to send back message instead of .end()
+				res.status(201).json({
+					message: true
+				});
 			})
 			.catch(next);
 	})
