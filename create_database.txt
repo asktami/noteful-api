@@ -11,8 +11,8 @@ createdb -U twill noteful-test
 -- before running migrate make sure src/config.js and .env have database info
 cd /Library/WebServer/Documents/GitHub/Bloc/noteful-api
 
--- make .env NODE_ENV = production to migrate to non-test database
--- make .env NODE_ENV = test to migrate to test database (or just npm run migrate:test )
+-- make .env NODE_ENV = production to migrate non-test database
+-- make .env NODE_ENV = test to migrate test database (or just npm run migrate:test )
 
 npm run migrate
 

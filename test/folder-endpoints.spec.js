@@ -109,9 +109,9 @@ describe('Folder Endpoints', function() {
 	describe(`GET /api/folders/:folder_id`, () => {
 		context(`Given no folder`, () => {
 			it(`responds with 404`, () => {
-				const folderid = 123456;
+				const id_folder = 123456;
 				return supertest(app)
-					.get(`/api/folders/${folderid}`)
+					.get(`/api/folders/${id_folder}`)
 					.set('Authorization', `Bearer ${process.env.API_TOKEN}`)
 					.expect(404, { error: { message: `Folder Not Found` } });
 			});
@@ -125,10 +125,10 @@ describe('Folder Endpoints', function() {
 			});
 
 			it('responds with 200 and the specified folder', () => {
-				const folderid = 2;
-				const expectedFolder = testFolder[folderid - 1];
+				const id_folder = 2;
+				const expectedFolder = testFolder[id_folder - 1];
 				return supertest(app)
-					.get(`/api/folders/${folderid}`)
+					.get(`/api/folders/${id_folder}`)
 					.set('Authorization', `Bearer ${process.env.API_TOKEN}`)
 					.expect(200, expectedFolder);
 			});
@@ -228,9 +228,9 @@ describe('Folder Endpoints', function() {
 	describe(`DELETE /api/folders/:folder_id`, () => {
 		context(`Given no folder`, () => {
 			it(`responds with 404`, () => {
-				const folderid = 123456;
+				const id_folder = 123456;
 				return supertest(app)
-					.delete(`/api/folders/${folderid}`)
+					.delete(`/api/folders/${id_folder}`)
 					.set('Authorization', `Bearer ${process.env.API_TOKEN}`)
 					.expect(404, { error: { message: `Folder Not Found` } });
 			});
@@ -265,9 +265,9 @@ describe('Folder Endpoints', function() {
 	describe(`PATCH /api/folders/:folder_id`, () => {
 		context(`Given no folder`, () => {
 			it(`responds with 404`, () => {
-				const folderid = 123456;
+				const id_folder = 123456;
 				return supertest(app)
-					.delete(`/api/folders/${folderid}`)
+					.delete(`/api/folders/${id_folder}`)
 					.set('Authorization', `Bearer ${process.env.API_TOKEN}`)
 					.expect(404, { error: { message: `Folder Not Found` } });
 			});
