@@ -49,7 +49,7 @@ describe('Note Endpoints', function() {
 				.send({
 					name: 'test note name',
 					content: 'test note content',
-					id_folder: 1
+					folderid: 1
 				})
 				.expect(401, { error: 'Unauthorized request' });
 		});
@@ -226,7 +226,7 @@ describe('Note Endpoints', function() {
 		it(`creates an note, responding with 201 and the new note`, () => {
 			const newNote = {
 				name: 'Test New Note',
-				id_folder: 1,
+				folderid: 1,
 				content: 'Test new note content...'
 			};
 			return supertest(app)
@@ -236,7 +236,7 @@ describe('Note Endpoints', function() {
 				.expect(201)
 				.expect(res => {
 					expect(res.body.name).to.eql(newNote.name);
-					expect(res.body.id_folder).to.eql(newNote.id_folder);
+					expect(res.body.folderid).to.eql(newNote.folderid);
 					expect(res.body.content).to.eql(newNote.content);
 					expect(res.body).to.have.property('id');
 					expect(res.headers.location).to.eql(`/api/notes/${res.body.id}`);
@@ -259,7 +259,7 @@ describe('Note Endpoints', function() {
 		requiredFields.forEach(field => {
 			const newNote = {
 				name: 'Test New Note',
-				id_folder: '1',
+				folderid: '1',
 				content: 'Test new note content...'
 			};
 
@@ -366,7 +366,7 @@ describe('Note Endpoints', function() {
 				const idToUpdate = 2;
 				const updateNote = {
 					name: 'updated note name',
-					id_folder: 1,
+					folderid: 1,
 					content: 'updated note content'
 				};
 				const expectedNote = {
@@ -401,7 +401,7 @@ describe('Note Endpoints', function() {
 					.set('Authorization', `Bearer ${process.env.API_TOKEN}`)
 					.expect(400, {
 						error: {
-							message: `Request body must contain either 'name', 'id_folder', or 'content'`
+							message: `Request body must contain either 'name', 'folderid', or 'content'`
 						}
 					});
 			});

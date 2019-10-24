@@ -1,4 +1,4 @@
 ALTER TABLE note
-  DROP COLUMN id_folder;
+  DROP COLUMN folderid;
 
 DROP TABLE IF EXISTS folder;

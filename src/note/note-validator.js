@@ -2,7 +2,7 @@ const logger = require('../logger');
 
 const NO_ERRORS = null;
 
-// name, id_folder, content
+// name, folderid, content
 
 function getNoteValidationError({ name, content }) {
 	if (name && name.length < 3) {

@@ -12,7 +12,7 @@ const jsonParser = express.json();
 const serializeNote = note => ({
 	id: note.id,
 	name: xss(note.name),
-	id_folder: note.id_folder,
+	folderid: note.folderid,
 	content: xss(note.content),
 	modified: note.modified
 });
@@ -28,12 +28,12 @@ noteRouter
 			.catch(next);
 	})
 	.post(jsonParser, (req, res, next) => {
-		const { name, id_folder, content } = req.body;
-		const newNote = { name, id_folder, content };
+		const { name, folderid, content } = req.body;
+		const newNote = { name, folderid, content };
 
 		const knexInstance = req.app.get('db');
 
-		for (const field of ['name', 'id_folder', 'content']) {
+		for (const field of ['name', 'folderid', 'content']) {
 			if (!req.body[field]) {
 				logger.error({
 					message: `${field} is required`,
@@ -119,8 +119,8 @@ noteRouter
 	.patch(jsonParser, (req, res, next) => {
 		const knexInstance = req.app.get('db');
 		const { id } = req.params;
-		const { name, id_folder, content } = req.body;
-		const noteToUpdate = { name, id_folder, content };
+		const { name, folderid, content } = req.body;
+		const noteToUpdate = { name, folderid, content };
 
 		const numberOfValues = Object.values(noteToUpdate).filter(Boolean).length;
 		if (numberOfValues === 0) {
@@ -132,7 +132,7 @@ noteRouter
 			});
 			return res.status(400).json({
 				error: {
-					message: `Request body must contain either 'name', 'id_folder', or 'content'`
+					message: `Request body must contain either 'name', 'folderid', or 'content'`
 				}
 			});
 		}
