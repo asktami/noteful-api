@@ -1,3 +1,4 @@
+-- NOTE: "folder" is PARENT with 1 to many CHILD "note" records
 
 -- in Terminal
 -- create database:
