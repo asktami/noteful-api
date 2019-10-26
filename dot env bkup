@@ -1,0 +1,6 @@
+NODE_ENV=production
+PORT=8000
+API_TOKEN="2934a46e-eec9-11e9-81b4-2a2ae2dbcce4"
+DB_URL="postgresql://twill@localhost/noteful"
+TEST_DB_URL="postgresql://twill@localhost/noteful-test"
+TEST_TABLE="folder"
