@@ -20,9 +20,11 @@ See [https://github.com/asktami/bookmarks-server](https://github.com/asktami/boo
 
 ## .env file contents
 
+```
 NODE_ENV=production
 PORT=8000
 API_TOKEN="YOUR-API-TOKEN"
 DB_URL="postgresql://YOUR_USER_NAME@localhost/noteful"
 TEST_DB_URL="postgresql://YOUR_USER_NAME@localhost/noteful-test"
 TEST_TABLE="folder"
+```
