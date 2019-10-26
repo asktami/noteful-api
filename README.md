@@ -1,6 +1,6 @@
 # noteful-api
 
-An Express app with CRUD endpoints that retrieves data from a json or PostgreSQL datasource.
+An Express server app with CRUD endpoints that retrieves data from a json or PostgreSQL datasource.
 
 Works with [https://github.com/asktami/noteful-react-client](https://github.com/asktami/noteful-react-client).
 
