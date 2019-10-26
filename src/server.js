@@ -9,12 +9,10 @@ const db = knex({
 
 app.set('db', db);
 
+// to DEBUG database connection
 console.log('NODE_ENV = ', process.env.NODE_ENV);
 console.log('DB_URL = ', DB_URL);
-
-// to DEBUG database connection
 console.log('----------------');
-
 const qry = db
 	.select('*')
 	.from(process.env.TEST_TABLE)
@@ -31,7 +29,6 @@ const rows = db
 
 console.log(qry);
 console.log(conn.client.connectionSettings);
-
 console.log('----------------');
 
 app.listen(PORT, () => {
