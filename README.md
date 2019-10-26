@@ -17,3 +17,12 @@ Works with [https://github.com/asktami/noteful-react-client](https://github.com/
 ## Boilerplate Info
 
 See [https://github.com/asktami/bookmarks-server](https://github.com/asktami/bookmarks-server) for info on the next steps once you clone this repo.
+
+## .env file contents
+
+NODE_ENV=production
+PORT=8000
+API_TOKEN="YOUR-API-TOKEN"
+DB_URL="postgresql://YOUR_USER_NAME@localhost/noteful"
+TEST_DB_URL="postgresql://YOUR_USER_NAME@localhost/noteful-test"
+TEST_TABLE="folder"
