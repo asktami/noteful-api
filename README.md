@@ -6,14 +6,15 @@ Works with [https://github.com/asktami/noteful-react-client](https://github.com/
 
 An Express app with CRUD endpoints that retrieves data from a json or PostgreSQL datasource.
 
-    - SQL migration scripts to create the Noteful database with tables for folders and notes including relationships and CASCADES
-        - a folder is a 'parent' record to child 'note' records
+- SQL migration scripts to create the Noteful database with tables for folders and notes including relationships and CASCADES
 
-    - Note and Folder service objects for the new tables designed above
+- a folder is a 'parent' record to child 'note' records
 
-    - Routers to perform CRUD operations for Notes and Folders
+- Note and Folder service objects for the new tables designed above
 
-    - An Express server for the Noteful API with the endpoints /notes and /folders
+- Routers to perform CRUD operations for Notes and Folders
+
+- An Express server for the Noteful API with the endpoints /notes and /folders
 
 ## Boilerplate Info
 
