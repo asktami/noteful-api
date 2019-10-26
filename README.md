@@ -16,4 +16,4 @@ Works with [https://github.com/asktami/noteful-react-client](https://github.com/
 
 ## Boilerplate Info
 
-See [https://github.com/asktami/bookmarks-server](https://github.com/asktami/bookmarks-server) for info on how this repo was created.
+See [https://github.com/asktami/bookmarks-server](https://github.com/asktami/bookmarks-server) for info on the next steps once you clone this repo.
