@@ -29,10 +29,10 @@ createdb -U postgres noteful-test
 5. Add records to the database:
 
 ```
--- create tables
+-- create non-test database tables
 npm run migrate
 
--- seed tables:
+-- seed non-test database tables:
 psql -U postgres -d noteful -f ./seeds/seed.folder.sql
 psql -U postgres -d noteful -f ./seeds/seed.note.sql
 
