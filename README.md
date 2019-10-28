@@ -14,6 +14,33 @@ Works with [https://github.com/asktami/noteful-react-client](https://github.com/
 
 - An Express server for the Noteful API with the endpoints /notes and /folders
 
+
+## How to Install On Your Computer
+
+1. Clone this repo
+2. In Terminal, change to the directory on your computer that contains this repo
+3. Run `npm install`
+4. Create your `noteful` PostgreSQL databases:
+```
+createdb -U postgres noteful
+createdb -U postgres noteful-test
+```
+5. Add records to the database: 
+```
+npm run migrate
+
+-- seed tables:
+psql -U postgres -d noteful -f ./seeds/seed.folder.sql
+psql -U postgres -d noteful -f ./seeds/seed.note.sql
+
+-- seed test database tables:
+psql -U postgres -d noteful-test -f ./seeds/seed.folder.sql
+psql -U postgres -d noteful-test -f ./seeds/seed.note.sql
+
+```
+5. In Terminal, run `npm start`
+
+
 ## Boilerplate Info
 
 See [https://github.com/asktami/bookmarks-server](https://github.com/asktami/bookmarks-server) for info on how I create my Express APIs.
