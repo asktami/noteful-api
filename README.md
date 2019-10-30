@@ -14,7 +14,7 @@ Works with [https://github.com/asktami/noteful-react-client](https://github.com/
 
 - An Express server for the Noteful API with the endpoints /notes and /folders
 
-## Install On Your Computer
+## Setup
 
 1. Clone this repo
 2. In Terminal, change to the directory on your computer that contains this repo
