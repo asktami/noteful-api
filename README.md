@@ -19,12 +19,13 @@ Works with [https://github.com/asktami/noteful-react-client](https://github.com/
 1. Clone this repo
 2. In Terminal, change to the directory on your computer that contains this repo
 3. Install dependencies: `npm install`
-4. Create the `noteful` PostgreSQL databases:
 
-   - `createdb noteful`
-   - `createdb noteful-test`
+4. Create the database user (as a superuser): `createuser -s noteful`
 
-5. Create the database user: `createuser noteful`
+5. Create the `noteful` PostgreSQL databases:
+
+   - `createdb -U noteful noteful`
+   - `createdb -U noteful noteful-test`
 
 6. Grant privileges to the new user in psql:
 
