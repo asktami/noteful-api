@@ -27,17 +27,12 @@ Works with [https://github.com/asktami/noteful-react-client](https://github.com/
    - `createdb -U noteful noteful`
    - `createdb -U noteful noteful-test`
 
-6. Grant privileges to the new user in psql:
-
-   - `GRANT ALL PRIVILEGES ON DATABASE noteful TO noteful`
-   - `GRANT ALL PRIVILEGES ON DATABASE "noteful-test" TO noteful`
-
-7. Environment:
+6. Environment:
 
    - Prepare environment file: `cp example.env .env`
    - Replace values in `.env` with your custom values.
 
-8) Create development and test database tables:
+7. Create development and test database tables:
    - `npm run migrate`
    - `npm run migrate:test`
 
@@ -63,15 +58,15 @@ timezone = 'UTC'
 - To seed the development database:
 
 ```
-psql -U postgres -d noteful -f ./seeds/seed.folder.sql
-psql -U postgres -d noteful -f ./seeds/seed.note.sql
+psql -U noteful -d noteful -f ./seeds/seed.folder.sql
+psql -U noteful -d noteful -f ./seeds/seed.note.sql
 ```
 
 - To seed the test database:
 
 ```
-psql -U postgres -d noteful-test -f ./seeds/seed.folder.sql
-psql -U postgres -d noteful-test -f ./seeds/seed.note.sql
+psql -U noteful -d noteful-test -f ./seeds/seed.folder.sql
+psql -U noteful -d noteful-test -f ./seeds/seed.note.sql
 ```
 
 - To clear seed data:
