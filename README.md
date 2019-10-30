@@ -18,13 +18,11 @@ Works with [https://github.com/asktami/noteful-react-client](https://github.com/
 
 1. Clone this repo
 2. In Terminal, change to the directory on your computer that contains this repo
-3. Run `npm install`
+3. Install dependencies: `npm install`
 4. Create the `noteful` PostgreSQL databases:
 
-```
-createdb noteful
-createdb noteful-test
-```
+   - `createdb noteful`
+   - `createdb noteful-test`
 
 5. Create the database user: `createuser noteful`
 
@@ -33,16 +31,16 @@ createdb noteful-test
    - `GRANT ALL PRIVILEGES ON DATABASE noteful TO noteful`
    - `GRANT ALL PRIVILEGES ON DATABASE "noteful-test" TO noteful`
 
-7. Create development database tables: `npm run migrate`
-
-8. Create test database tables: `npm run migrate:test`
-
-9. Environment:
+7. Environment:
 
 - Prepare environment file: `cp example.env .env`
 - Replace values in `.env` with your custom values.
 - Bootstrap development database: `npm run migrate`
 - Bootstrap test database: `npm run migrate:test`
+
+8. Create development and test database tables:
+   - `npm run migrate`
+   - `npm run migrate:test`
 
 ### Configure Postgres
 
