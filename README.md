@@ -35,10 +35,8 @@ Works with [https://github.com/asktami/noteful-react-client](https://github.com/
 
    - Prepare environment file: `cp example.env .env`
    - Replace values in `.env` with your custom values.
-   - Bootstrap development database: `npm run migrate`
-   - Bootstrap test database: `npm run migrate:test`
 
-8. Create development and test database tables:
+8) Create development and test database tables:
    - `npm run migrate`
    - `npm run migrate:test`
 
