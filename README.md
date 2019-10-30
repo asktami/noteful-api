@@ -89,10 +89,8 @@ psql -U noteful -d noteful-test -a -f seeds/trunc.noteful_tables.sql.sql
 
 ---
 
-## Express Boilerplate with Routes, Winston and UUID
+## Boilerplate Info
 
 This project was bootstrapped with [Express Boilerplate with Routes, Winston and UUID](https://github.com/asktami/express-boilerplate-routes).
-
-## Boilerplate Info
 
 See [https://github.com/asktami/bookmarks-server](https://github.com/asktami/bookmarks-server) for info on how I created my Express APIs.
