@@ -87,6 +87,8 @@ psql -U noteful -d noteful-test -a -f seeds/trunc.noteful_tables.sql.sql
 - Start application for development: `npm run dev`
 - Run tests: `npm test`
 
+---
+
 ## Boilerplate Info
 
 This project was bootstrapped with [Express Boilerplate with Routes, Winston and UUID](https://github.com/asktami/express-boilerplate-routes).
