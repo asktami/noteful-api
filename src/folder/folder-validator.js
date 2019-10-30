@@ -2,8 +2,7 @@ const logger = require('../logger');
 
 const NO_ERRORS = null;
 
-// folder name must be alphanumeric??
-// at least 3 characters???
+// folder name must at least 3 characters
 
 function getFolderValidationError({ name }) {
 	if (name.length < 3) {
