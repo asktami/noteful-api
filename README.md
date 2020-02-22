@@ -14,6 +14,10 @@ Works with [https://github.com/asktami/noteful-react-client](https://github.com/
 
 - An Express server for the Noteful API with the endpoints /notes and /folders
 
+## Hosted on
+
+- Heroku
+
 ## Setup
 
 1. Clone this repo
