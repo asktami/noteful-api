@@ -13,25 +13,30 @@ const folderRouter = require('./folder/folder-router');
 
 const app = express();
 
+// should allow CORS requests for anywhere but not working
+app.use(cors());
+
+// should allow requests from react client site
+// let corsOptions = {
+// 	origin: 'https://noteful-react-client-asktami.vercel.app/',
+// };
+// app.options(corsOptions, cors());
+
+// app.use((req, res, next) => {
+// 	res.header('Access-Control-Allow-Origin', '*');
+// 	res.header(
+// 		'Access-Control-Allow-Headers',
+// 		'Origin, X-Requested-With, Content-Type, Accept'
+// 	);
+// 	res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+// 	next();
+// });
+
 app.use(
 	morgan(NODE_ENV === 'production' ? 'tiny' : 'common', {
 		skip: () => NODE_ENV === 'test',
 	})
 );
-
-app.use(cors());
-
-// enabling CORS options to allow requests from anywhere
-app.options('*', cors());
-
-// app.use((req, res, next) => {
-// 	res.header(
-// 		'Access-Control-Allow-Origin',
-// 		'https://noteful-react-client-asktami.vercel.app/'
-// 	);
-// 	next();
-// });
-
 app.use(helmet());
 app.use(helmet.hidePoweredBy());
 app.use(validateBearerToken);
