@@ -20,6 +20,18 @@ app.use(
 );
 
 app.use(cors());
+
+// enabling CORS options to allow requests from anywhere
+app.options('*', cors());
+
+// app.use((req, res, next) => {
+// 	res.header(
+// 		'Access-Control-Allow-Origin',
+// 		'https://noteful-react-client-asktami.vercel.app/'
+// 	);
+// 	next();
+// });
+
 app.use(helmet());
 app.use(helmet.hidePoweredBy());
 app.use(validateBearerToken);
