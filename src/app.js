@@ -13,7 +13,17 @@ const folderRouter = require('./folder/folder-router');
 
 const app = express();
 
-app.use(cors());
+// app.use(cors());
+
+app.use(
+	cors({
+		origin: [
+			'http://localhost:8001',
+			'https://noteful-app-asktami.vercel.app/',
+		],
+		credentials: true,
+	})
+);
 
 // -------------------------------------------------------
 // ALTERNATIVE, include before other routes
