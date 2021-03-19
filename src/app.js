@@ -13,30 +13,30 @@ const folderRouter = require('./folder/folder-router');
 
 const app = express();
 
-app.use(
-	cors({
-		origin: '*',
-		methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-		allowedHeaders:
-			'Access-Control-Allow-Origin, Origin, X-Requested-With, Content-Type, Accept, Authorization',
-		credentials: true,
-		preflightContinue: false,
-		optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
-	})
-);
-// should allow CORS requests for anywhere but not working
-// client site = https://noteful-react-client-asktami.vercel.app/
+app.use(cors());
 
-//-------------------------------------------------------
+// -------------------------------------------------------
 // ALTERNATIVE, include before other routes
 // should allow CORS requests for anywhere but not working
 
-// app.use(cors());
-//-------------------------------------------------------
+// app.use(
+// 	cors({
+// 		origin: '*',
+// 		methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+// 		allowedHeaders:
+// 			'Access-Control-Allow-Origin, Origin, X-Requested-With, Content-Type, Accept, Authorization',
+// 		credentials: true,
+// 		preflightContinue: false,
+// 		optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+// 	})
+// );
+// // should allow CORS requests for anywhere but not working
+// // client site = https://noteful-react-client-asktami.vercel.app/
 
 // ALTERNATIVE, if don't use npm cors package, also not working
+
 // change * to:
-// https://noteful-react-client-asktami.vercel.app/
+// https://noteful-app-asktami.vercel.app/
 
 // app.use((req, res, next) => {
 // 	res.header('Access-Control-Allow-Origin', '*');
