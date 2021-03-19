@@ -13,17 +13,21 @@ const folderRouter = require('./folder/folder-router');
 
 const app = express();
 
-// app.use(cors());
+app.use(cors());
 
-app.use(
-	cors({
-		origin: [
-			'http://localhost:8001',
-			'https://noteful-app-asktami.vercel.app/',
-		],
-		credentials: true,
-	})
-);
+// -------------------------------------------------------
+// ALTERNATIVE, include before other routes
+// should allow CORS requests for these urls but not working
+
+// app.use(
+// 	cors({
+// 		origin: [
+// 			'http://localhost:8001',
+// 			'https://noteful-app-asktami.vercel.app/',
+// 		],
+// 		credentials: true,
+// 	})
+// );
 
 // -------------------------------------------------------
 // ALTERNATIVE, include before other routes
@@ -66,10 +70,17 @@ app.use(
 );
 app.use(helmet());
 app.use(helmet.hidePoweredBy());
-app.use(validateBearerToken);
+app.use(validateBearerToken); // to use a manually set TOKEN vs. JWT
 
 app.use('/api/notes', noteRouter);
 app.use('/api/folders', folderRouter);
+
+// for CORS
+// app.use(function(req, res, next) {
+// 	res.header('Access-Control-Allow-Origin', '*');
+// 	res.header('Access-Control-Allow-Headers', 'X-Requested-With');
+// 	next();
+// });
 
 app.get('/', (req, res) => {
 	res.send('Hello, world!');
