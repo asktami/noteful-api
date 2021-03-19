@@ -13,7 +13,7 @@ const folderRouter = require('./folder/folder-router');
 
 const app = express();
 
-app.use(cors());
+// app.use(cors());
 
 // -------------------------------------------------------
 // ALTERNATIVE, include before other routes
@@ -63,6 +63,16 @@ app.use(cors());
 // });
 //-------------------------------------------------------
 
+// for CORS
+app.use(function(req, res, next) {
+	res.header('Access-Control-Allow-Origin', '*');
+	res.header(
+		'Access-Control-Allow-Headers',
+		'Origin, X-Requested-With, Content-Type, Accept'
+	);
+	next();
+});
+
 app.use(
 	morgan(NODE_ENV === 'production' ? 'tiny' : 'common', {
 		skip: () => NODE_ENV === 'test',
@@ -74,13 +84,6 @@ app.use(validateBearerToken); // to use a manually set TOKEN vs. JWT
 
 app.use('/api/notes', noteRouter);
 app.use('/api/folders', folderRouter);
-
-// for CORS
-// app.use(function(req, res, next) {
-// 	res.header('Access-Control-Allow-Origin', '*');
-// 	res.header('Access-Control-Allow-Headers', 'X-Requested-With');
-// 	next();
-// });
 
 app.get('/', (req, res) => {
 	res.send('Hello, world!');
