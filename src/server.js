@@ -4,7 +4,7 @@ const { PORT, DATABASE_URL } = require('./config');
 
 const db = knex({
 	client: 'pg',
-	connection: DATABASE_URL
+	connection: DATABASE_URL,
 });
 
 app.set('db', db);
@@ -23,7 +23,7 @@ const conn = db.select('*').from(process.env.TEST_TABLE);
 const rows = db
 	.select('*')
 	.from(process.env.TEST_TABLE)
-	.then(result => {
+	.then((result) => {
 		console.log('rows = ', result);
 	});
 
