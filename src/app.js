@@ -13,9 +13,27 @@ const folderRouter = require('./folder/folder-router');
 
 const app = express();
 
+/*
+NOTE: changes made in response to Heroku changes to their https://cors-anywhere.herokuapp.com proxy in Dec 2020
+
+TO HANDLE these CORS errors:
+
+	(index):1 Access to fetch at 'http://localhost:8000/api/folders' from origin 'http://localhost:8001' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: It does not have HTTP ok status.
+
+	AND
+
+	Request header field authorization is not allowed by Access-Control-Allow-Headers in preflight response.
+
+ADDED
+#4 with if ('OPTIONS' === req.method)...
+*/
+
+// 1.
+// should allow CORS requests for all urls but not working
 // app.use(cors());
 
 // -------------------------------------------------------
+// 2.
 // ALTERNATIVE, include before other routes
 // should allow CORS requests for these urls but not working
 
@@ -30,47 +48,44 @@ const app = express();
 // );
 
 // -------------------------------------------------------
-// ALTERNATIVE, include before other routes
-// should allow CORS requests for anywhere but not working
-
-// app.use(
-// 	cors({
-// 		origin: '*',
-// 		methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-// 		allowedHeaders:
-// 			'Access-Control-Allow-Origin, Origin, X-Requested-With, Content-Type, Accept, Authorization',
-// 		credentials: true,
-// 		preflightContinue: false,
-// 		optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
-// 	})
-// );
-// // should allow CORS requests for anywhere but not working
-// // client site = https://noteful-react-client-asktami.vercel.app/
-
-// ALTERNATIVE, if don't use npm cors package, also not working
-
+// 3.
+// ALTERNATIVE, if don't use npm cors package
+// but not working
 // change * to:
 // https://noteful-app-asktami.vercel.app/
 
-// app.use((req, res, next) => {
-// 	res.header('Access-Control-Allow-Origin', '*');
-// 	res.header(
-// 		'Access-Control-Allow-Headers',
-// 		'Origin, X-Requested-With, Content-Type, Accept, Authorization'
-// 	);
-// 	res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-// 	next();
-// });
-//-------------------------------------------------------
-
+// -------------------------------------------------------
+// 4.
+// THIS WORKS
 // for CORS
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
 	res.header('Access-Control-Allow-Origin', '*');
 	res.header(
-		'Access-Control-Allow-Headers',
-		'Origin, X-Requested-With, Content-Type, Accept'
+		'Access-Control-Allow-Methods',
+		'GET, POST, PATCH, PUT, DELETE, OPTIONS'
 	);
-	next();
+	res.header(
+		'Access-Control-Allow-Headers',
+		'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+	);
+
+	// intercepts OPTIONS method
+	if ('OPTIONS' === req.method) {
+		res.header('Access-Control-Allow-Origin', '*');
+		res.header(
+			'Access-Control-Allow-Methods',
+			'GET, POST, PATCH, PUT, DELETE, OPTIONS'
+		);
+		res.header(
+			'Access-Control-Allow-Headers',
+			'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+		);
+		//respond with 200
+		res.send(200);
+	} else {
+		//move on
+		next();
+	}
 });
 
 app.use(
