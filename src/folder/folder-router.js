@@ -18,11 +18,9 @@ folderRouter
 	.route('/')
 	.get((req, res, next) => {
 		const knexInstance = req.app.get('db');
-		console.log('test');
 		FolderService.getAllFolders(knexInstance)
 			.then((folders) => {
-				res.json({ success: 'ok' });
-				/*res.json(folders.map(serializeFolder));*/
+				res.json(folders.map(serializeFolder));
 			})
 			.catch(next);
 	})
