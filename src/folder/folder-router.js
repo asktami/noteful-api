@@ -9,20 +9,21 @@ const { getFolderValidationError } = require('./folder-validator');
 const folderRouter = express.Router();
 const jsonParser = express.json();
 
-const serializeFolder = folder => ({
+const serializeFolder = (folder) => ({
 	id: folder.id,
-	name: xss(folder.name)
+	name: xss(folder.name),
 });
 
 folderRouter
 	.route('/')
 	.get((req, res, next) => {
-		const knexInstance = req.app.get('db');
+		/*const knexInstance = req.app.get('db');
 		FolderService.getAllFolders(knexInstance)
 			.then(folders => {
 				res.json(folders.map(serializeFolder));
 			})
-			.catch(next);
+			.catch(next);*/
+		res.send({ success: 'ok' });
 	})
 	.post(jsonParser, (req, res, next) => {
 		const { name } = req.body;
@@ -35,10 +36,10 @@ folderRouter
 					message: `${field} is required`,
 					request: `${req.originalUrl}`,
 					method: `${req.method}`,
-					ip: `${req.ip}`
+					ip: `${req.ip}`,
 				});
 				return res.status(400).send({
-					error: { message: `'${field}' is required` }
+					error: { message: `'${field}' is required` },
 				});
 			}
 		}
@@ -49,18 +50,18 @@ folderRouter
 				message: `POST Validation Error`,
 				request: `${req.originalUrl}`,
 				method: `${req.method}`,
-				ip: `${req.ip}`
+				ip: `${req.ip}`,
 			});
 			return res.status(400).send(error);
 		}
 
 		FolderService.insertFolder(knexInstance, newFolder)
-			.then(folder => {
+			.then((folder) => {
 				logger.info({
 					message: `Folder with id ${folder.id} created.`,
 					request: `${req.originalUrl}`,
 					method: `${req.method}`,
-					ip: `${req.ip}`
+					ip: `${req.ip}`,
 				});
 				res
 					.status(201)
@@ -76,16 +77,16 @@ folderRouter
 		const { id } = req.params;
 		const knexInstance = req.app.get('db');
 		FolderService.getById(knexInstance, id)
-			.then(folder => {
+			.then((folder) => {
 				if (!folder) {
 					logger.error({
 						message: `Folder with id ${id} not found.`,
 						request: `${req.originalUrl}`,
 						method: `${req.method}`,
-						ip: `${req.ip}`
+						ip: `${req.ip}`,
 					});
 					return res.status(404).json({
-						error: { message: `Folder Not Found` }
+						error: { message: `Folder Not Found` },
 					});
 				}
 				res.folder = folder;
@@ -100,17 +101,17 @@ folderRouter
 		const { id } = req.params;
 		const knexInstance = req.app.get('db');
 		FolderService.deleteFolder(knexInstance, id)
-			.then(numRowsAffected => {
+			.then((numRowsAffected) => {
 				logger.info({
 					message: `Folder with id ${id} deleted.`,
 					request: `${req.originalUrl}`,
 					method: `${req.method}`,
-					ip: `${req.ip}`
+					ip: `${req.ip}`,
 				});
 
 				// need to send back message instead of .end()
 				res.status(204).json({
-					message: true
+					message: true,
 				});
 			})
 			.catch(next);
@@ -127,12 +128,12 @@ folderRouter
 				message: `Invalid update without required fields`,
 				request: `${req.originalUrl}`,
 				method: `${req.method}`,
-				ip: `${req.ip}`
+				ip: `${req.ip}`,
 			});
 			return res.status(400).json({
 				error: {
-					message: `Update must contain folder name`
-				}
+					message: `Update must contain folder name`,
+				},
 			});
 		}
 
@@ -142,13 +143,13 @@ folderRouter
 				message: `PATCH Validation Error`,
 				request: `${req.originalUrl}`,
 				method: `${req.method}`,
-				ip: `${req.ip}`
+				ip: `${req.ip}`,
 			});
 			return res.status(400).send(error);
 		}
 
 		FolderService.updateFolder(knexInstance, id, folderToUpdate)
-			.then(numRowsAffected => {
+			.then((numRowsAffected) => {
 				res.status(204).end();
 			})
 			.catch(next);
