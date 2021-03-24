@@ -84,6 +84,7 @@ psql -U noteful -d noteful-test -a -f seeds/trunc.noteful_tables.sql.sql
 
 - Start application for development: `npm run dev`
 - Run tests: `npm test`
+- To use your Heroku database (instead of your local database) during development: `npm run stage`
 
 ---
 
